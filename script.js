@@ -1,17 +1,18 @@
-// Simple alert when the contact form is submitted
-document.getElementById("contact-form").addEventListener("submit", function(e) {
-    e.preventDefault();
-    alert("Thank you for your message! We'll get back to you soon.");
-    this.reset();
-});
+let cart = [];
 
-// Optional: Add a simple cart counter if you use PayPal buttons
-let cartCount = 0;
-const buttons = document.querySelectorAll("form input[type='submit']");
+function addToCart(name, price) {
+    cart.push({ name, price });
+    alert(name + " has been added to your cart!");
+    updateCartDisplay();
+}
 
-buttons.forEach(button => {
-    button.addEventListener("click", () => {
-        cartCount++;
-        console.log("Items in cart:", cartCount);
+function updateCartDisplay() {
+    let cartDiv = document.getElementById("cart");
+    cartDiv.innerHTML = "";
+    let total = 0;
+    cart.forEach(item => {
+        cartDiv.innerHTML += item.name + " - €" + item.price + "<br>";
+        total += item.price;
     });
-});
+    cartDiv.innerHTML += "<strong>Total: €" + total + "</strong>";
+}
