@@ -1,31 +1,44 @@
-let cart = [];
+const cartBtn = document.getElementById('cart-btn');
+const cart = document.getElementById('cart');
+const closeCart = document.getElementById('close-cart');
+const addButtons = document.querySelectorAll('.add-to-cart');
+const cartItems = document.getElementById('cart-items');
+const cartTotal = document.getElementById('cart-total');
+const cartCount = document.getElementById('cart-count');
 
-// Add product to cart
-function addToCart(name, price) {
-    cart.push({ name, price });
-    alert(name + " has been added to your cart!");
-    updateCartDisplay();
+let cartData = [];
+
+cartBtn.addEventListener('click', () => cart.classList.add('open'));
+closeCart.addEventListener('click', () => cart.classList.remove('open'));
+
+addButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.parentElement;
+    const name = card.dataset.name;
+    const price = parseFloat(card.dataset.price);
+
+    cartData.push({ name, price });
+    updateCart();
+  });
+});
+
+function updateCart() {
+  cartItems.innerHTML = '';
+  let total = 0;
+  cartData.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.name} - €${item.price.toFixed(2)}`;
+    cartItems.appendChild(li);
+    total += item.price;
+  });
+  cartTotal.textContent = total.toFixed(2);
+  cartCount.textContent = cartData.length;
 }
 
-// Update cart display
-function updateCartDisplay() {
-    let cartDiv = document.getElementById("cart");
-    cartDiv.innerHTML = "";
-    let total = 0;
-    cart.forEach(item => {
-        cartDiv.innerHTML += item.name + " - €" + item.price + "<br>";
-        total += item.price;
-    });
-    cartDiv.innerHTML += "<strong>Total: €" + total + "</strong>";
-}
-
-// Simulate MobilePay for entire cart
-function mobilePayCart() {
-    if(cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
-    }
-    let total = cart.reduce((sum, item) => sum + item.price, 0);
-    alert("This is a simulated MobilePay payment for €" + total + " for all items in your cart.");
-}
-
+document.getElementById('checkout-btn').addEventListener('click', () => {
+  alert(`Total: €${cartTotal.textContent}\nRedirecting to payment link...`);
+  // Optional: redirect all items to your payment page here
+  cartData = [];
+  updateCart();
+  cart.classList.remove('open');
+});
