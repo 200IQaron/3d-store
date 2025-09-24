@@ -3,115 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My 3D Toy Store</title>
-  <link rel="stylesheet" href="style.css">
+  <title>3D Toy Shop</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; }
+    header { background:#111; color:white; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
+    header .logo { font-size:20px; font-weight:bold; }
+    nav a { color:white; margin-left:20px; text-decoration:none; }
+    .product-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:20px; padding:20px; }
+    .product-card { background:white; border-radius:10px; padding:15px; box-shadow:0 4px 8px rgba(0,0,0,0.1); text-align:center; }
+    .product-card img { max-width:100%; border-radius:10px; }
+    button { background:#111; color:white; border:none; padding:10px 15px; margin-top:10px; border-radius:5px; cursor:pointer; }
+    button:hover { background:#444; }
+    #cart { position:fixed; top:0; right:-400px; width:300px; height:100%; background:white; box-shadow:-2px 0 10px rgba(0,0,0,0.2); padding:20px; transition:0.3s; }
+    #cart.open { right:0; }
+    #cart h2 { margin-top:0; }
+    #cart ul { list-style:none; padding:0; }
+    #cart ul li { margin:5px 0; }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="logo">3D Toy Store</div>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#products">Products</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a href="#" id="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</a>
-    </nav>
-  </header>
 
-  <section id="home" class="hero">
-    <h1>Handmade 3D-Printed Toys & Organizers</h1>
-    <p>Fun, creative, and customizable 3D prints!</p>
-  </section>
+<header>
+  <div class="logo">3D Toy Shop</div>
+  <nav>
+    <a href="#products">Products (7)</a>
+    <a href="#" id="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</a>
+  </nav>
+</header>
 
-  <section id="products">
-    <h2>Our Products (<span id="product-count">6</span>)</h2>
-    <div class="product-grid">
+<section id="products">
+  <div class="product-grid">
 
-      <!-- Product 1: Pocket Copter -->
-      <div class="product-card" data-name="Pocket Copter" data-price="3.00">
-        <img src="images/pocket-copter.jpg" alt="Pocket Copter">
-        <h3>Pocket Copter</h3>
-        <p>Fun pocket-sized helicopter toy you can spin anywhere!</p>
-        <p><strong>€3</strong></p>
-        <a href="https://buy.stripe.com/bJe28j39A4eCd3ObMUak000" class="add-to-cart">Buy Now</a>
-      </div>
-
-      <!-- Product 2: Clip-on Headphone Stand -->
-      <div class="product-card" data-name="Clip-on Headphone Stand" data-price="4.00">
-        <img src="images/headphone-stand.jpg" alt="Clip-on Headphone Stand">
-        <h3>Clip-on Headphone Stand</h3>
-        <p>Keep your desk clean and organized. Clips securely to your desk to hold headphones.</p>
-        <p><strong>€4</strong></p>
-        <a href="https://buy.stripe.com/eVq4gr7pQbH40h2dV2ak001" class="add-to-cart">Buy Now</a>
-      </div>
-
-      <!-- Product 3: Cable Organizer Clips -->
-      <div class="product-card" data-name="Cable Organizer Clips" data-price="2.00">
-        <img src="images/cable-clips.jpg" alt="Cable Organizer Clips">
-        <h3>Cable Organizer Clips</h3>
-        <p>Small clips to keep your charging cables from falling off the desk.</p>
-        <p><strong>€2</strong></p>
-        <a href="https://buy.stripe.com/bJe5kvh0qeTg2pa9EMak002" class="add-to-cart">Buy Now</a>
-      </div>
-
-      <!-- Product 4: Phone Stand -->
-      <div class="product-card" data-name="Phone Stand" data-price="3.00">
-        <img src="images/phone-stand.jpg" alt="Phone Stand">
-        <h3>Phone Stand</h3>
-        <p>Simple and sturdy phone stand. Perfect for watching videos hands-free.</p>
-        <p><strong>€3</strong></p>
-        <a href="https://buy.stripe.com/7sYbIT9xY4eC0h25owak003" class="add-to-cart">Buy Now</a>
-      </div>
-
-      <!-- Product 5: Mini Drawer Organizer -->
-      <div class="product-card" data-name="Mini Drawer Organizer" data-price="4.00">
-        <img src="images/mini-organizer.jpg" alt="Mini Drawer Organizer">
-        <h3>Mini Drawer Organizer</h3>
-        <p>Compact tray to store pens, USBs, and other small desk items.</p>
-        <p><strong>€4</strong></p>
-        <a href="https://buy.stripe.com/7sYbIT9xY4eC0h25owak003" class="add-to-cart">Buy Now</a>
-      </div>
-
-      <!-- Product 6: Key Holder / Wall Hook -->
-      <div class="product-card" data-name="Key Holder / Wall Hook" data-price="3.00">
-        <img src="images/key-holder.jpg" alt="Key Holder">
-        <h3>Key Holder / Wall Hook</h3>
-        <p>Hang your keys or small items neatly on the wall.</p>
-        <p><strong>€3</strong></p>
-        <a href="https://buy.stripe.com/4gM5kv11saD08NybMUak006" class="add-to-cart">Buy Now</a>
-      </div>
-
+    <!-- Pocket Copter -->
+    <div class="product-card" data-name="Pocket Copter" data-price="2.00" data-link="https://buy.stripe.com/bJe28j39A4eCd3ObMUak000">
+      <img src="pocketcopter.jpg" alt="Pocket Copter">
+      <h3>Pocket Copter</h3>
+      <p>€2.00</p>
+      <button class="add-to-cart">Add to Cart</button>
     </div>
-  </section>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I'm a 15-year-old 3D printing enthusiast creating fun toys & organizers. All prints are handmade with care!</p>
-  </section>
+    <!-- Clip-on Headphone Stand -->
+    <div class="product-card" data-name="Clip-on Headphone Stand" data-price="4.50" data-link="https://buy.stripe.com/eVq4gr7pQbH40h2dV2ak001">
+      <img src="headphone.jpg" alt="Headphone Stand">
+      <h3>Clip-on Headphone Stand</h3>
+      <p>€4.50</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <form id="contact-form">
-      <input type="text" placeholder="Name" required>
-      <input type="email" placeholder="Email" required>
-      <textarea placeholder="Message" required></textarea>
-      <button type="submit">Send</button>
-    </form>
-  </section>
+    <!-- Cable Clips -->
+    <div class="product-card" data-name="Cable Clips" data-price="1.50" data-link="https://buy.stripe.com/bJe5kvh0qeTg2pa9EMak002">
+      <img src="cable.jpg" alt="Cable Clips">
+      <h3>Cable Organizer Clips</h3>
+      <p>€1.50</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
 
-  <div id="cart">
-    <h2>Your Cart</h2>
-    <ul id="cart-items"></ul>
-    <p>Total: €<span id="cart-total">0.00</span></p>
-    <button id="checkout-btn">Checkout</button>
-    <button id="close-cart">Close</button>
+    <!-- Phone Stand -->
+    <div class="product-card" data-name="Phone Stand" data-price="2.50" data-link="https://buy.stripe.com/7sYbIT9xY4eC0h25owak003">
+      <img src="phonestand.jpg" alt="Phone Stand">
+      <h3>Phone Stand</h3>
+      <p>€2.50</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+
+    <!-- Desk Organizer -->
+    <div class="product-card" data-name="Desk Organizer" data-price="3.50" data-link="https://buy.stripe.com/cNi9AL25w6mKbZK18gak004">
+      <img src="deskorganizer.jpg" alt="Desk Organizer">
+      <h3>Desk Organizer</h3>
+      <p>€3.50</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+
+    <!-- Pen Holder -->
+    <div class="product-card" data-name="Pen Holder" data-price="3.50" data-link="https://buy.stripe.com/7sY6oz6lMeTg4xi8AIak005">
+      <img src="penholder.jpg" alt="Pen Holder">
+      <h3>Pen Holder</h3>
+      <p>€3.50</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+
+    <!-- Key Holder -->
+    <div class="product-card" data-name="Key Holder" data-price="1.50" data-link="https://buy.stripe.com/4gM5kv11saD08NybMUak006">
+      <img src="keyholder.jpg" alt="Key Holder">
+      <h3>Key Holder / Wall Hook</h3>
+      <p>€1.50</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+
   </div>
+</section>
 
-  <footer>
-    <p>© 2025 My 3D Toy Store</p>
-  </footer>
+<!-- Cart Sidebar -->
+<div id="cart">
+  <h2>Your Cart</h2>
+  <ul id="cart-items"></ul>
+  <p>Total: €<span id="cart-total">0.00</span></p>
+  <button id="checkout-btn">Checkout</button>
+  <button id="close-cart">Close</button>
+</div>
 
-  <script src="script.js"></script>
+<script>
+const cartBtn = document.getElementById('cart-btn');
+const cart = document.getElementById('cart');
+const closeCart = document.getElementById('close-cart');
+const addButtons = document.querySelectorAll('.add-to-cart');
+const cartItems = document.getElementById('cart-items');
+const cartTotal = document.getElementById('cart-total');
+const cartCount = document.getElementById('cart-count');
+
+let cartData = [];
+
+cartBtn.addEventListener('click', () => cart.classList.add('open'));
+closeCart.addEventListener('click', () => cart.classList.remove('open'));
+
+addButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.parentElement;
+    const name = card.dataset.name;
+    const price = parseFloat(card.dataset.price);
+    const link = card.dataset.link;
+
+    cartData = [{ name, price, link }]; // one product at a time
+    updateCart();
+  });
+});
+
+function updateCart() {
+  cartItems.innerHTML = '';
+  let total = 0;
+  cartData.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.name} - €${item.price.toFixed(2)}`;
+    cartItems.appendChild(li);
+    total += item.price;
+  });
+  cartTotal.textContent = total.toFixed(2);
+  cartCount.textContent = cartData.length;
+}
+
+document.getElementById('checkout-btn').addEventListener('click', () => {
+  if (cartData.length > 0) {
+    window.location.href = cartData[0].link;
+  } else {
+    alert("Your cart is empty!");
+  }
+});
+</script>
+
 </body>
 </html>
-
