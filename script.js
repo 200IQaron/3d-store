@@ -28,3 +28,4 @@ function mobilePayCart() {
     let total = cart.reduce((sum, item) => sum + item.price, 0);
     alert("This is a simulated MobilePay payment for €" + total + " for all items in your cart.");
 }
+
