@@ -4,117 +4,117 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>3D Toy Store</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 body {
-  font-family: 'Baloo 2', cursive;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  background-color: #f5f5f5;
   color: #333;
 }
 header {
   text-align: center;
   padding: 25px 15px;
-  color: #fff;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-header h1 { font-size: 2.2em; margin:0; animation: bounce 2s infinite; }
-header p { font-size: 1em; margin-top:5px; }
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-6px); }
-  60% { transform: translateY(-3px); }
-}
+header h1 { font-size: 2em; margin:0; font-weight:700; }
+header p { font-size: 1em; margin-top:5px; color: #666; }
 
 #products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  padding: 15px;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
   margin: auto;
 }
 
 .product-card {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   text-align: center;
-  padding: 12px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  padding: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
 }
 .product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
 }
-.product-card h3 { margin: 6px 0 4px; font-size: 1.1em; color: #333; }
-.product-card p { margin: 4px 0; font-size: 0.95em; color: #555; }
+.product-card img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+.product-card h3 { margin: 10px 0 5px; font-size: 1.1em; font-weight:500; color:#333; }
+.product-card p { margin: 5px 0; font-size: 0.95em; color: #555; }
 .product-card button {
-  margin-top: 6px;
-  background-color: #ff6b6b;
+  margin-top: 10px;
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 10px 15px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 0.9em;
+  font-weight: 500;
   transition: background 0.3s, transform 0.2s;
 }
-.product-card button:hover { background-color: #ff4757; transform: scale(1.05); }
+.product-card button:hover {
+  background-color: #0056b3;
+  transform: scale(1.03);
+}
 
 #cart {
   position: fixed;
   top: 20px;
   right: 0;
-  width: 230px;
+  width: 280px;
   max-height: 90vh;
   overflow-y: auto;
   background: #fff;
-  border-radius: 12px 0 0 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-  padding: 12px;
+  border-radius: 8px 0 0 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  padding: 15px;
   z-index: 1000;
 }
-#cart h3 { margin-top:0; font-size:1.2em; text-align:center; color:#ff6b6b; }
+#cart h3 { margin-top:0; font-size:1.2em; text-align:center; color:#007bff; }
 #cart ul { list-style: none; padding:0; margin:10px 0 10px 0; }
-#cart li { margin-bottom:5px; font-size:0.9em; }
+#cart li { margin-bottom:5px; font-size:0.95em; }
 #cart button {
-  background-color: #1dd1a1;
+  background-color: #28a745;
   width: 100%;
   border: none;
-  padding: 9px;
-  border-radius: 8px;
+  padding: 10px;
+  border-radius: 6px;
   font-weight: bold;
   color: white;
   cursor: pointer;
-  font-size: 0.95em;
+  font-size: 1em;
   transition: background 0.3s;
 }
-#cart button:hover { background-color: #10ac84; }
+#cart button:hover { background-color: #1e7e34; }
 
 .added-msg {
-  color: green;
+  color: #28a745;
   font-size: 0.85em;
   margin-top: 3px;
   display: none;
 }
 
 @media(max-width:600px){
-  #cart { width: 180px; top:10px; padding:8px; }
-  #products { gap: 10px; }
+  #cart { width: 200px; top:10px; padding:10px; }
+  #products { gap: 15px; }
   .product-card h3 { font-size:1em; }
   .product-card p { font-size:0.85em; }
-  .product-card button { font-size:0.85em; padding:6px 8px; }
+  .product-card button { font-size:0.9em; padding:8px 10px; }
 }
 </style>
 </head>
 <body>
 <header>
-  <h1>3D Toy Store 🎨</h1>
-  <p>Fun 3D printed toys & organizers!</p>
+  <h1>3D Toy Store</h1>
+  <p>Professional 3D printed toys & organizers</p>
 </header>
 
 <div id="products"></div>
@@ -131,13 +131,13 @@ document.addEventListener("DOMContentLoaded", function() {
   const BACKEND_URL = 'https://3dtoystore-backend-production-b64c.up.railway.app';
 
   const products = [
-    { id: 1, name: "Key Holder", price: 1.50 },
-    { id: 2, name: "Pen Holder", price: 3.50 },
-    { id: 3, name: "Desk Organizer", price: 3.50 },
-    { id: 4, name: "Phone Stand", price: 2.50 },
-    { id: 5, name: "Cable Clips", price: 1.50 },
-    { id: 6, name: "Clip to Desk Head Stand", price: 4.50 },
-    { id: 7, name: "Pocket Copter", price: 2.00 }
+    { id: 1, name: "Key Holder", price: 1.50, img:"" },
+    { id: 2, name: "Pen Holder", price: 3.50, img:"" },
+    { id: 3, name: "Desk Organizer", price: 3.50, img:"" },
+    { id: 4, name: "Phone Stand", price: 2.50, img:"" },
+    { id: 5, name: "Cable Clips", price: 1.50, img:"" },
+    { id: 6, name: "Clip to Desk Head Stand", price: 4.50, img:"" },
+    { id: 7, name: "Pocket Copter", price: 2.00, img:"" }
   ];
 
   let cart = [];
@@ -149,6 +149,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const div = document.createElement('div');
     div.className = 'product-card';
     div.innerHTML = `
+      ${p.img ? `<img src="${p.img}" alt="${p.name}">` : ''}
       <h3>${p.name}</h3>
       <p>€${p.price.toFixed(2)}</p>
       <button onclick="addToCart(${p.id})">Add to Cart</button>
@@ -164,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const msg = document.getElementById(`msg-${productId}`);
     msg.textContent = `✅ ${product.name} added to your cart!`;
     msg.style.display = 'block';
-    setTimeout(()=> msg.style.display='none', 3000);
+    setTimeout(()=> msg.style.display='none', 2500);
   }
 
   function updateCart() {
