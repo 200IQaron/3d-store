@@ -1,3 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>3D Toy Store</title>
+  <style>
+    body { font-family: Arial; }
+    .product { border: 1px solid #ccc; padding: 10px; margin: 10px; display:inline-block; }
+    #cart { position: fixed; top: 10px; right: 10px; border:1px solid #000; padding:10px; background:#f9f9f9; }
+  </style>
+</head>
+<body>
+
+<h1>3D Toy Store</h1>
+<div id="products"></div>
+
+<div id="cart">
+  <h3>Cart</h3>
+  <ul id="cart-items"></ul>
+  <button id="checkout">Checkout</button>
+</div>
+
 <script>
 const BACKEND_URL = 'https://3dtoystore-backend-production-b64c.up.railway.app';
 
@@ -13,7 +34,6 @@ const products = [
 
 let cart = [];
 
-// Display products
 const productsDiv = document.getElementById('products');
 products.forEach(p => {
   const div = document.createElement('div');
@@ -26,7 +46,6 @@ products.forEach(p => {
   productsDiv.appendChild(div);
 });
 
-// Add to cart
 function addToCart(productId) {
   const product = products.find(p => p.id === productId);
   cart.push(product);
@@ -34,7 +53,6 @@ function addToCart(productId) {
   alert(`${product.name} added to cart!`);
 }
 
-// Update cart display
 function updateCart() {
   const cartItems = document.getElementById('cart-items');
   cartItems.innerHTML = '';
@@ -45,12 +63,8 @@ function updateCart() {
   });
 }
 
-// Checkout
 document.getElementById('checkout').addEventListener('click', async () => {
-  if (cart.length === 0) {
-    alert("Cart is empty!");
-    return;
-  }
+  if (cart.length === 0) { alert("Cart is empty!"); return; }
 
   try {
     const response = await fetch(`${BACKEND_URL}/create-checkout-session`, {
@@ -58,16 +72,14 @@ document.getElementById('checkout').addEventListener('click', async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ items: cart.map(i => ({ id: i.id })) })
     });
-
     const data = await response.json();
-    if (data.url) {
-      window.location = data.url; // Redirect to Stripe checkout
-    } else {
-      alert("Error creating checkout session.");
-    }
-  } catch (error) {
-    console.error(error);
+    if (data.url) window.location = data.url;
+    else alert("Error creating checkout session.");
+  } catch(err) {
+    console.error(err);
     alert("Failed to connect to backend.");
   }
 });
 </script>
+</body>
+</html>
