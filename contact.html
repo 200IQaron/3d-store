@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Me - 3D Toy Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>3D Toy Store</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <div id="cart">Cart (0 items) - €0.00</div>
+    </nav>
+  </header>
+
+  <main style="padding: 20px;">
+    <h2>Contact Me</h2>
+    <p>If you have any questions or want to reach out, you can contact me here:</p>
+    <ul>
+      <li><strong>Phone:</strong> +358 405578871</li>
+      <li><strong>Email:</strong> <a href="mailto:Aron.sopori@gmail.com">Aron.sopori@gmail.com</a></li>
+    </ul>
+
+    <p>You can also leave a message using the form below:</p>
+
+    <form id="contact-form">
+      <label for="name">Your Name:</label><br>
+      <input type="text" id="name" name="name" required><br><br>
+
+      <label for="email">Your Email:</label><br>
+      <input type="email" id="email" name="email" required><br><br>
+
+      <label for="message">Message:</label><br>
+      <textarea id="message" name="message" rows="5" required></textarea><br><br>
+
+      <button type="submit">Send Message</button>
+    </form>
+
+    <p id="form-response" style="color: green; margin-top: 10px;"></p>
+  </main>
+
+  <script>
+    // Cart display (same as index.js)
+    let cart = [];
+    function updateCartDisplay() {
+        const cartDiv = document.getElementById('cart');
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+        cartDiv.textContent = `Cart (${totalItems} items) - €${totalPrice}`;
+    }
+    updateCartDisplay();
+
+    // Contact form submission (dummy, just shows message)
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('form-response').textContent = "Thank you! Your message has been sent.";
+      document.getElementById('contact-form').reset();
+    });
+  </script>
+</body>
+</html>
