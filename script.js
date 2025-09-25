@@ -1,44 +1,75 @@
-const cartBtn = document.getElementById('cart-btn');
-const cart = document.getElementById('cart');
-const closeCart = document.getElementById('close-cart');
-const addButtons = document.querySelectorAll('.add-to-cart');
-const cartItems = document.getElementById('cart-items');
-const cartTotal = document.getElementById('cart-total');
-const cartCount = document.getElementById('cart-count');
-
-let cartData = [];
-
-cartBtn.addEventListener('click', () => cart.classList.add('open'));
-closeCart.addEventListener('click', () => cart.classList.remove('open'));
-
-addButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const card = btn.parentElement;
-    const name = card.dataset.name;
-    const price = parseFloat(card.dataset.price);
-
-    cartData.push({ name, price });
-    updateCart();
-  });
-});
-
-function updateCart() {
-  cartItems.innerHTML = '';
-  let total = 0;
-  cartData.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = `${item.name} - €${item.price.toFixed(2)}`;
-    cartItems.appendChild(li);
-    total += item.price;
-  });
-  cartTotal.textContent = total.toFixed(2);
-  cartCount.textContent = cartData.length;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
 }
 
-document.getElementById('checkout-btn').addEventListener('click', () => {
-  alert(`Total: €${cartTotal.textContent}\nRedirecting to payment link...`);
-  // Optional: redirect all items to your payment page here
-  cartData = [];
-  updateCart();
-  cart.classList.remove('open');
-});
+header {
+  background: #212529;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  margin: 0;
+}
+
+#cart-button {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+main {
+  padding: 2rem;
+}
+
+#products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.product {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.product h3 {
+  margin-top: 0.5rem;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+#cart {
+  margin-top: 2rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+footer {
+  margin-top: 2rem;
+  padding: 1rem;
+  text-align: center;
+  background: #343a40;
+  color: white;
+}
