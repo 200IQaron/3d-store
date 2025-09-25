@@ -1,128 +1,86 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+const backendUrl = "https://3dtoystore-backend-production-b64c.up.railway.app";
+
+const products = [
+  { id: "keyholder", name: "Key Holder", price: 1.50 },
+  { id: "penholder", name: "Pen Holder", price: 3.50 },
+  { id: "deskorganizer", name: "Desk Organizer", price: 3.50 },
+  { id: "phonestand", name: "Phone Stand", price: 2.50 },
+  { id: "cableclips", name: "Cable Clips", price: 1.50 },
+  { id: "headstand", name: "Clip-on Headphone Stand", price: 4.50 },
+  { id: "pocketcopter", name: "Pocket Copter", price: 2.00 },
+  { id: "bmwkeychain", name: "BMW Keychain", price: 1.50 },
+  { id: "sdholder", name: "SD & MicroSD Holder", price: 3.50 },
+  { id: "lehtisaari", name: "Lehtisaari Keychain", price: 5.00 }
+];
+
+let cart = [];
+
+function renderProducts() {
+  const container = document.getElementById("products");
+  container.innerHTML = "";
+  products.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "product";
+    div.innerHTML = `
+      <h3>${p.name}</h3>
+      <p>€${p.price.toFixed(2)}</p>
+      <button onclick="addToCart('${p.id}')">Add to Cart</button>
+    `;
+    container.appendChild(div);
+  });
 }
 
-body {
-  background: #fefefe;
-  color: #333;
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  cart.push(product);
+  updateCart();
+  alert(`${product.name} has been added to your cart!`);
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+function updateCart() {
+  document.getElementById("cart-count").textContent = cart.length;
+
+  const itemsList = document.getElementById("cart-items");
+  itemsList.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price;
+    const li = document.createElement("li");
+    li.textContent = `${item.name} - €${item.price.toFixed(2)}`;
+    itemsList.appendChild(li);
+  });
+
+  document.getElementById("cart-total").textContent = `Total: €${total.toFixed(2)}`;
 }
 
-header .logo {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
+document.getElementById("cart-button").addEventListener("click", () => {
+  document.getElementById("cart").classList.toggle("hidden");
+});
 
-nav a {
-  margin-left: 1rem;
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-}
+document.getElementById("checkout").addEventListener("click", async () => {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
 
-.hero {
-  padding: 3rem 2rem;
-  text-align: center;
-  background: #e0f7fa;
-}
+  try {
+    const res = await fetch(`${backendUrl}/create-checkout-session`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: cart })
+    });
 
-.hero h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
+    const data = await res.json();
+    if (data.url) {
+      window.location = data.url;
+    } else {
+      alert("Error creating checkout session.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error connecting to server.");
+  }
+});
 
-.hero p {
-  font-size: 1.2rem;
-}
-
-section {
-  padding: 2rem;
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-}
-
-.product-card {
-  background: #fff;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  text-align: center;
-  transition: transform 0.2s;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-}
-
-.product-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-button, .add-to-cart {
-  background: #00bcd4;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 0.5rem;
-  text-decoration: none;
-  display: inline-block;
-}
-
-button:hover, .add-to-cart:hover {
-  background: #0097a7;
-}
-
-#cart {
-  position: fixed;
-  top: 0;
-  right: -400px;
-  width: 350px;
-  height: 100%;
-  background: #fff;
-  border-left: 1px solid #ddd;
-  padding: 1rem;
-  box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-  transition: right 0.3s;
-  overflow-y: auto;
-}
-
-#cart.open {
-  right: 0;
-}
-
-#cart-items {
-  list-style: none;
-  margin-bottom: 1rem;
-}
-
-#cart-items li {
-  margin-bottom: 0.5rem;
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: #f1f1f1;
-  margin-top: 2rem;
-}
+renderProducts();
