@@ -16,6 +16,24 @@ const cart = [];
 
 // Render Products
 const productsContainer = document.getElementById("products-container");
+const cartItemsList = document.getElementById("cart-items");
+const cartTotal = document.getElementById("cart-total");
+
+function updateMiniCart() {
+  cartItemsList.innerHTML = "";
+  let total = 0;
+  const counts = {};
+  cart.forEach(item => counts[item.name] = (counts[item.name] || 0) + 1);
+  for (const name in counts) {
+    const item = cart.find(p => p.name === name);
+    const li = document.createElement("li");
+    li.textContent = `${name} x${counts[name]} - €${(item.price * counts[name]).toFixed(2)}`;
+    cartItemsList.appendChild(li);
+    total += item.price * counts[name];
+  }
+  cartTotal.textContent = `Total: €${total.toFixed(2)}`;
+}
+
 products.forEach(product => {
   const div = document.createElement("div");
   div.className = "product-card";
@@ -28,6 +46,7 @@ products.forEach(product => {
   div.querySelector("button").addEventListener("click", () => {
     cart.push(product);
     alert(`${product.name} has been successfully added to your cart.`);
+    updateMiniCart();
   });
   productsContainer.appendChild(div);
 });
