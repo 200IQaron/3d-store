@@ -7,20 +7,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <header>
     <h1>3D Toy Store</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="contact.html">Contact Me</a>
-      <div id="cart">Cart (0 items) - €0.00</div>
-    </nav>
   </header>
 
-  <main>
-    <h2>Products</h2>
-    <div id="products" class="product-row"></div>
-    <button id="checkout-btn">Checkout</button>
+  <!-- Cart Button -->
+  <div id="cart-container">
+    <button id="checkout-btn">🛒 Checkout</button>
+  </div>
+
+  <!-- Products Grid -->
+  <main id="products-container">
+    <!-- Products will be inserted by JS -->
   </main>
+
+  <footer>
+    <p>Contact me: <br>Phone: +358 405578871<br>Email: Aron.sopori@gmail.com</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
