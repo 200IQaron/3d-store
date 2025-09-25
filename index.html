@@ -1,20 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Toy Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+  font-family: 'Baloo 2', cursive;
+  margin: 0;
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  color: #333;
+  overflow-x: hidden;
+}
+header {
+  text-align: center;
+  padding: 30px 15px;
+  color: #fff;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+}
+header h1 { font-size: 2.5em; animation: bounce 2s infinite; margin:0; }
+header p { font-size: 1.1em; margin-top:5px; }
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-8px); }
+  60% { transform: translateY(-4px); }
+}
+
+#products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 15px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  text-align: center;
+  padding: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+.product-card:hover {
+  transform: translateY(-8px) rotate(-1deg);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+}
+.product-card img { max-width: 140px; margin-bottom: 10px; transition: transform 0.3s; }
+.product-card img:hover { transform: scale(1.05) rotate(3deg); }
+.product-card h3 { margin: 8px 0 4px; font-size: 1.2em; color: #333; }
+.product-card p { margin: 4px 0; font-size: 1em; color: #555; }
+.product-card button {
+  margin-top: 8px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95em;
+  transition: background 0.3s, transform 0.2s;
+}
+.product-card button:hover { background-color: #ff4757; transform: scale(1.05); }
+
+#cart {
+  position: fixed;
+  top: 20px;
+  right: 0px;
+  width: 250px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 15px 0 0 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  padding: 15px;
+  z-index: 1000;
+}
+#cart h3 { margin-top:0; font-size:1.3em; text-align:center; color:#ff6b6b; }
+#cart ul { list-style: none; padding:0; margin:10px 0 15px 0; }
+#cart li { margin-bottom:6px; font-size:0.95em; }
+#cart button {
+  background-color: #1dd1a1;
+  width: 100%;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.3s;
+}
+#cart button:hover { background-color: #10ac84; }
+
+.added-msg {
+  color: green;
+  font-size: 0.85em;
+  margin-top: 5px;
+  display: none;
+}
+
+</style>
+</head>
+<body>
+<header>
+  <h1>3D Toy Store 🎨</h1>
+  <p>Fun 3D printed toys & organizers!</p>
+</header>
+
+<div id="products"></div>
+
+<div id="cart">
+  <h3>🛒 Your Cart</h3>
+  <ul id="cart-items"></ul>
+  <p>Total: €<span id="cart-total">0.00</span></p>
+  <button id="checkout">Checkout</button>
+</div>
+
 <script>
 const BACKEND_URL = 'https://3dtoystore-backend-production-b64c.up.railway.app';
 
 const products = [
-  { id: 1, name: "Key Holder", price: 1.50, image: "https://via.placeholder.com/150/ffb6b9/000?text=Key+Holder" },
-  { id: 2, name: "Pen Holder", price: 3.50, image: "https://via.placeholder.com/150/ffe66d/000?text=Pen+Holder" },
-  { id: 3, name: "Desk Organizer", price: 3.50, image: "https://via.placeholder.com/150/4472ca/fff?text=Desk+Organizer" },
-  { id: 4, name: "Phone Stand", price: 2.50, image: "https://via.placeholder.com/150/ff6b6b/fff?text=Phone+Stand" },
-  { id: 5, name: "Cable Clips", price: 1.50, image: "https://via.placeholder.com/150/6bc1ff/000?text=Cable+Clips" },
-  { id: 6, name: "Clip to Desk Head Stand", price: 4.50, image: "https://via.placeholder.com/150/f78fb3/fff?text=Clip+Head+Stand" },
-  { id: 7, name: "Pocket Copter", price: 2.00, image: "https://via.placeholder.com/150/1dd1a1/fff?text=Pocket+Copter" }
+  { id: 1, name: "Key Holder", price: 1.50 },
+  { id: 2, name: "Pen Holder", price: 3.50 },
+  { id: 3, name: "Desk Organizer", price: 3.50 },
+  { id: 4, name: "Phone Stand", price: 2.50 },
+  { id: 5, name: "Cable Clips", price: 1.50 },
+  { id: 6, name: "Clip to Desk Head Stand", price: 4.50 },
+  { id: 7, name: "Pocket Copter", price: 2.00 }
 ];
 
 let cart = [];
-
 const productsDiv = document.getElementById('products');
-const cartDiv = document.getElementById('cart');
 const cartItems = document.getElementById('cart-items');
 const cartTotal = document.getElementById('cart-total');
 
@@ -22,11 +144,10 @@ products.forEach(p => {
   const div = document.createElement('div');
   div.className = 'product-card';
   div.innerHTML = `
-    <img src="${p.image}" alt="${p.name}">
     <h3>${p.name}</h3>
     <p>€${p.price.toFixed(2)}</p>
     <button onclick="addToCart(${p.id})">Add to Cart</button>
-    <div class="added-msg" style="display:none; color: green; margin-top:5px;">Added!</div>
+    <div class="added-msg" id="msg-${p.id}"></div>
   `;
   productsDiv.appendChild(div);
 });
@@ -35,7 +156,10 @@ function addToCart(productId) {
   const product = products.find(p => p.id === productId);
   cart.push(product);
   updateCart();
-  showCartNotification(product);
+  const msg = document.getElementById(`msg-${productId}`);
+  msg.textContent = `✅ ${product.name} added to your cart!`;
+  msg.style.display = 'block';
+  setTimeout(()=> msg.style.display='none', 3000);
 }
 
 function updateCart() {
@@ -48,32 +172,21 @@ function updateCart() {
     total += item.price;
   });
   cartTotal.textContent = total.toFixed(2);
-  cartDiv.classList.add('show');
-}
-
-function showCartNotification(product) {
-  const productCard = [...document.getElementsByClassName('product-card')]
-                        .find(card => card.querySelector('h3').textContent === product.name);
-  const msg = productCard.querySelector('.added-msg');
-  msg.style.display = 'block';
-  msg.textContent = `✅ ${product.name} added to your cart!`;
-  setTimeout(() => { msg.style.display = 'none'; }, 3000);
 }
 
 document.getElementById('checkout').addEventListener('click', async () => {
-  if (cart.length === 0) { alert("Cart is empty!"); return; }
-  try {
-    const response = await fetch(`${BACKEND_URL}/create-checkout-session`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: cart.map(i => ({ id: i.id })) })
+  if(cart.length===0){ alert("Cart is empty!"); return; }
+  try{
+    const res = await fetch(`${BACKEND_URL}/create-checkout-session`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({items:cart.map(i=>({id:i.id}))})
     });
-    const data = await response.json();
-    if (data.url) window.location = data.url;
+    const data = await res.json();
+    if(data.url) window.location = data.url;
     else alert("Error creating checkout session.");
-  } catch(err) {
-    console.error(err);
-    alert("Failed to connect to backend.");
-  }
+  }catch(err){console.error(err); alert("Failed to connect to backend.");}
 });
 </script>
+</body>
+</html>
