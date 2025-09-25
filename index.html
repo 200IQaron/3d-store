@@ -1,234 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Toy Store</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-body {
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  background-color: #f5f5f5;
-  color: #333;
-}
-header {
-  text-align: center;
-  padding: 25px 15px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-header h1 { font-size: 2em; margin:0; font-weight:700; }
-header p { font-size: 1em; margin-top:5px; color: #666; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Toy Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: #007bff;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .product {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .product:hover {
+      transform: scale(1.03);
+    }
+    .product img {
+      max-width: 100%;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .product h3 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    .product p {
+      color: #555;
+      font-size: 16px;
+      margin: 5px 0;
+    }
+    .product button {
+      padding: 10px 15px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .product button:hover {
+      background: #0056b3;
+    }
 
-#products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  max-width: 1200px;
-  margin: auto;
-}
-
-.product-card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  text-align: center;
-  padding: 15px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  position: relative;
-}
-.product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-}
-.product-card img {
-  max-width: 100%;
-  border-radius: 8px;
-}
-.product-card h3 { margin: 10px 0 5px; font-size: 1.1em; font-weight:500; color:#333; }
-.product-card p { margin: 5px 0; font-size: 0.95em; color: #555; }
-.product-card button {
-  margin-top: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.3s, transform 0.2s;
-}
-.product-card button:hover {
-  background-color: #0056b3;
-  transform: scale(1.03);
-}
-
-#cart {
-  position: fixed;
-  top: 20px;
-  right: 0;
-  width: 280px;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: #fff;
-  border-radius: 8px 0 0 8px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-  padding: 15px;
-  z-index: 1000;
-}
-#cart h3 { margin-top:0; font-size:1.2em; text-align:center; color:#007bff; }
-#cart ul { list-style: none; padding:0; margin:10px 0 10px 0; }
-#cart li { margin-bottom:5px; font-size:0.95em; }
-#cart button {
-  background-color: #28a745;
-  width: 100%;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background 0.3s;
-}
-#cart button:hover { background-color: #1e7e34; }
-
-.added-msg {
-  color: #28a745;
-  font-size: 0.85em;
-  margin-top: 3px;
-  display: none;
-}
-
-#contact {
-  background: #fff;
-  margin-top: 40px;
-  padding: 30px 20px;
-  text-align: center;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
-}
-#contact h2 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  color: #007bff;
-}
-#contact p {
-  margin: 5px 0;
-  font-size: 1em;
-  color: #333;
-}
-#contact a {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 500;
-}
-#contact a:hover { text-decoration: underline; }
-
-@media(max-width:600px){
-  #cart { width: 200px; top:10px; padding:10px; }
-  #products { gap: 15px; }
-  .product-card h3 { font-size:1em; }
-  .product-card p { font-size:0.85em; }
-  .product-card button { font-size:0.9em; padding:8px 10px; }
-}
-</style>
+    /* Cart Drawer */
+    #cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 300px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+      transition: right 0.3s ease;
+      padding: 20px;
+      z-index: 1000;
+    }
+    #cart-drawer h2 {
+      margin-top: 0;
+    }
+    #cart-drawer button {
+      margin-top: 10px;
+      width: 100%;
+    }
+    #cart-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>3D Toy Store</h1>
-  <p>Professional 3D printed toys & organizers</p>
-</header>
 
-<div id="products"></div>
+<header>🛒 3D Toy Store</header>
 
-<div id="cart">
-  <h3>🛒 Your Cart</h3>
-  <ul id="cart-items"></ul>
-  <p>Total: €<span id="cart-total">0.00</span></p>
-  <button id="checkout">Checkout</button>
+<!-- Products Section -->
+<div class="products" id="products"></div>
+
+<!-- Cart Drawer -->
+<div id="cart-drawer">
+  <h2>Your Cart</h2>
+  <div id="cart-items"></div>
+  <p id="cart-total">Total: €0.00</p>
+  <button onclick="checkout()">Checkout</button>
+  <button onclick="closeCart()">Close</button>
 </div>
 
-<!-- Contact Section -->
-<section id="contact">
-  <h2>📞 Contact Us</h2>
-  <p>Phone: <a href="tel:+358405578871">+358 405578871</a></p>
-  <p>Email: <a href="mailto:Aron.sopori@gmail.com">Aron.sopori@gmail.com</a></p>
-</section>
+<!-- Cart Button -->
+<button id="cart-button" onclick="openCart()">Cart</button>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const BACKEND_URL = 'https://3dtoystore-backend-production-b64c.up.railway.app';
+  const backendUrl = "https://3dtoystore-backend-production-b64c.up.railway.app"; // Your backend URL
+  let cart = [];
 
   const products = [
-    { id: 1, name: "Key Holder", price: 1.50, img:"" },
-    { id: 2, name: "Pen Holder", price: 3.50, img:"" },
-    { id: 3, name: "Desk Organizer", price: 3.50, img:"" },
-    { id: 4, name: "Phone Stand", price: 2.50, img:"" },
-    { id: 5, name: "Cable Clips", price: 1.50, img:"" },
-    { id: 6, name: "Clip to Desk Head Stand", price: 4.50, img:"" },
-    { id: 7, name: "Pocket Copter", price: 2.00, img:"" },
-    { id: 8, name: "BMW Keychain", price: 1.50, img:"" },
-    { id: 9, name: "SD & Micro SD Holder", price: 3.50, img:"" },
-    { id: 10, name: "Lehtisaari Keychain", price: 5.00, img:"" }
+    { id: 1, name: "Key Holder", price: 150, img:"https://via.placeholder.com/150" },
+    { id: 2, name: "Pen Holder", price: 350, img:"https://via.placeholder.com/150" },
+    { id: 3, name: "Desk Organizer", price: 350, img:"https://via.placeholder.com/150" },
+    { id: 4, name: "Phone Stand", price: 250, img:"https://via.placeholder.com/150" },
+    { id: 5, name: "Cable Clips", price: 150, img:"https://via.placeholder.com/150" },
+    { id: 6, name: "Clip to Desk Head Stand", price: 450, img:"https://via.placeholder.com/150" },
+    { id: 7, name: "Pocket Copter", price: 200, img:"https://via.placeholder.com/150" },
+    { id: 8, name: "BMW Keychain", price: 150, img:"https://via.placeholder.com/150" },
+    { id: 9, name: "SD & Micro SD Holder", price: 350, img:"https://via.placeholder.com/150" },
+    { id: 10, name: "Lehtisaari Keychain", price: 500, img:"https://via.placeholder.com/150" }
   ];
 
-  let cart = [];
-  const productsDiv = document.getElementById('products');
-  const cartItems = document.getElementById('cart-items');
-  const cartTotal = document.getElementById('cart-total');
-
+  const productContainer = document.getElementById("products");
   products.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'product-card';
-    div.innerHTML = `
-      ${p.img ? `<img src="${p.img}" alt="${p.name}">` : ''}
-      <h3>${p.name}</h3>
-      <p>€${p.price.toFixed(2)}</p>
-      <button onclick="addToCart(${p.id})">Add to Cart</button>
-      <div class="added-msg" id="msg-${p.id}"></div>
+    productContainer.innerHTML += `
+      <div class="product">
+        <img src="${p.img}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>€${(p.price/100).toFixed(2)}</p>
+        <button onclick="addToCart(${p.id}, '${p.name}', ${p.price})">Add to Cart</button>
+      </div>
     `;
-    productsDiv.appendChild(div);
   });
 
-  window.addToCart = function(productId) {
-    const product = products.find(p => p.id === productId);
-    cart.push(product);
-    updateCart();
-    const msg = document.getElementById(`msg-${productId}`);
-    msg.textContent = `✅ ${product.name} added to your cart!`;
-    msg.style.display = 'block';
-    setTimeout(()=> msg.style.display='none', 2500);
+  function openCart() {
+    document.getElementById("cart-drawer").style.right = "0px";
   }
 
-  function updateCart() {
-    cartItems.innerHTML = '';
+  function closeCart() {
+    document.getElementById("cart-drawer").style.right = "-400px";
+  }
+
+  function addToCart(id, name, price) {
+    cart.push({ id, name, price });
+    updateCartUI();
+    openCart();
+    alert(`${name} has been successfully added to your cart!`);
+  }
+
+  function updateCartUI() {
+    const cartContainer = document.getElementById("cart-items");
+    const totalContainer = document.getElementById("cart-total");
+
+    cartContainer.innerHTML = "";
     let total = 0;
+
     cart.forEach(item => {
-      const li = document.createElement('li');
-      li.textContent = `${item.name} - €${item.price.toFixed(2)}`;
-      cartItems.appendChild(li);
+      const div = document.createElement("div");
+      div.textContent = `${item.name} - €${(item.price / 100).toFixed(2)}`;
+      cartContainer.appendChild(div);
       total += item.price;
     });
-    cartTotal.textContent = total.toFixed(2);
+
+    totalContainer.textContent = `Total: €${(total / 100).toFixed(2)}`;
   }
 
-  document.getElementById('checkout').addEventListener('click', async () => {
-    if(cart.length===0){ alert("Cart is empty!"); return; }
-    try{
-      const res = await fetch(`${BACKEND_URL}/create-checkout-session`, {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({items:cart.map(i=>({id:i.id}))})
-      });
-      const data = await res.json();
-      if(data.url) window.location = data.url;
-      else alert("Error creating checkout session.");
-    }catch(err){console.error(err); alert("Failed to connect to backend.");}
-  });
+  async function checkout() {
+    const response = await fetch(`${backendUrl}/create-checkout-session`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: cart })
+    });
 
-});
+    const session = await response.json();
+
+    if (session.url) {
+      window.location = session.url;
+    } else {
+      alert("Error creating checkout session");
+    }
+  }
 </script>
+
 </body>
 </html>
